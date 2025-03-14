@@ -1,0 +1,19 @@
+/* 添加一些明显的主题样式用于测试 */
+:root {
+  --theme-background: white;
+  --theme-text: black;
+}
+
+:root.dark {
+  --theme-background: #1a1a1a;
+  --theme-text: white;
+}
+
+.theme-test-block {
+  padding: 20px;
+  margin: 20px 0;
+  border: 2px solid;
+  transition: all 0.3s ease;
+  background-color: var(--theme-background);
+  color: var(--theme-text);
+} 

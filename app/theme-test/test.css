@@ -1,0 +1,8 @@
+/* 用于测试的自定义样式 */
+.theme-test-dark {
+  @apply dark:bg-gray-900;
+}
+
+.theme-test-light {
+  @apply bg-white;
+} 
