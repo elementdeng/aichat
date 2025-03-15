@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
   try {
+    console.log('API Key 是否存在:', !!process.env.DEEPSEEK_API_KEY);
+    console.log('API Key 前几位:', process.env.DEEPSEEK_API_KEY?.substring(0, 5));
+
     const { messages } = await req.json()
 
     const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
@@ -24,6 +27,11 @@ export async function POST(req: Request) {
 
     if (!response.ok) {
       const error = await response.json()
+      console.error('API 响应详情:', {
+        status: response.status,
+        statusText: response.statusText,
+        error: error
+      });
       throw new Error(error.message || '請求失敗')
     }
 

@@ -70,7 +70,7 @@ export default function ChatInterface() {
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-180px)]">
+    <div className="flex flex-col h-[calc(100vh-80px)]">
       {/* 介绍文字部分 - 添加标题 */}
       <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8">
         <h1 className="text-xl sm:text-2xl font-bold mb-4 text-gray-900 dark:text-white">
@@ -82,11 +82,11 @@ export default function ChatInterface() {
         </p>
       </div>
 
-      {/* 对话框部分 - 添加响应式宽度和padding */}
-      <div className="mx-auto w-full sm:w-[600px] lg:w-[800px] h-[500px] sm:h-[600px] 
+      {/* 对话框部分 - 修改高度计算和滚动行为 */}
+      <div className="mx-auto w-full sm:w-[600px] lg:w-[800px] 
                       flex flex-col bg-gray-50 dark:bg-gray-900 rounded-lg shadow-lg 
-                      mb-6 max-w-full px-2 sm:px-0">
-        {/* 消息列表 */}
+                      mb-6 max-w-full px-2 sm:px-0 h-[calc(100vh-300px)] min-h-[400px] max-h-[700px]">
+        {/* 消息列表 - 修改滚动行为 */}
         <div className="flex-1 overflow-y-auto p-2 sm:p-4 space-y-4 scrollbar-thin 
                         scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 
                         scrollbar-track-transparent">
