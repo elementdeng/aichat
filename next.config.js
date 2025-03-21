@@ -8,6 +8,7 @@ const nextConfig = {
   },
   basePath: '/aichat',
   assetPrefix: '/aichat',
+  output: 'standalone',
   experimental: {
     serverActions: true
   },
