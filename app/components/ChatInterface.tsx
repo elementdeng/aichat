@@ -2,8 +2,15 @@
 
 import { useState, useRef, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter/dist/cjs/prism'
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'
+
+declare module 'react-syntax-highlighter' {
+  export const Prism: any;
+}
+declare module 'react-syntax-highlighter/dist/cjs/styles/prism' {
+  export const vscDarkPlus: any;
+}
 
 interface Message {
   role: 'user' | 'assistant';
