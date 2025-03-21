@@ -7,6 +7,7 @@ const nextConfig = {
     ignoreBuildErrors: true
   },
   basePath: '/aichat',
+  assetPrefix: '/aichat',
   experimental: {
     serverActions: true
   },
