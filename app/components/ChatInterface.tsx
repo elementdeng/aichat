@@ -44,7 +44,7 @@ export default function ChatInterface() {
     setMessages(prev => [...prev, userMessage])
     setInput('')
     setIsLoading(true)
-    setShouldScroll(true) // 发送消息时设置滚动标志
+    setShouldScroll(true)
 
     try {
       const response = await fetch('/api/chat', {
@@ -54,8 +54,14 @@ export default function ChatInterface() {
         },
         body: JSON.stringify({
           messages: [...messages, userMessage]
-        })
+        }),
+        // 添加超时设置
+        signal: AbortSignal.timeout(300000) // 5分钟超时
       })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
 
       const data = await response.json()
       
@@ -63,14 +69,22 @@ export default function ChatInterface() {
         throw new Error(data.error)
       }
 
+      if (!data.message) {
+        throw new Error('Invalid response format')
+      }
+
       setMessages(prev => [...prev, {
         role: 'assistant',
         content: data.message
       }])
-      setShouldScroll(true) // AI 回复时设置滚动标志
-    } catch (error) {
+      setShouldScroll(true)
+    } catch (error: any) {
       console.error('Error:', error)
-      // 可以添加错误提示
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: `抱歉，发生了错误：${error.message || '未知错误'}`
+      }])
+      setShouldScroll(true)
     } finally {
       setIsLoading(false)
     }

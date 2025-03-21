@@ -1,55 +1,56 @@
 import { NextResponse } from 'next/server'
+import OpenAI from 'openai'
+
+// 增加超时时间
+export const runtime = 'edge' // 使用 Edge Runtime
+export const maxDuration = 300 // 增加到5分钟
+
+const openai = new OpenAI({
+  apiKey: process.env.DEEPSEEK_API_KEY,
+  timeout: 300000, // 增加到5分钟
+})
 
 export async function POST(req: Request) {
   try {
-    console.log('API Key 是否存在:', !!process.env.DEEPSEEK_API_KEY);
-    console.log('API Key 前几位:', process.env.DEEPSEEK_API_KEY?.substring(0, 5));
+    const body = await req.json()
+    const { messages } = body
 
-    const { messages } = await req.json()
+    const response = await openai.chat.completions.create({
+      model: "deepseek-chat",  // 使用 Deepseek 模型
+      messages,
+      temperature: 0.7,
+      max_tokens: 1000,
+      stream: false, // 确保不使用流式响应
+    })
 
-    const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
-      method: 'POST',
+    // 确保返回格式正确
+    return new NextResponse(JSON.stringify({
+      message: response.choices[0].message.content
+    }), {
+      status: 200,
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: "deepseek-chat",
-        messages: [
-          {
-            role: "system",
-            content: "你是一個友善的AI助手，請用粵語和繁體中文回答問題。"
-          },
-          ...messages
-        ]
-      })
+      }
     })
 
-    if (!response.ok) {
-      const error = await response.json()
-      console.error('API 响应详情:', {
-        status: response.status,
-        statusText: response.statusText,
-        error: error
-      });
-      throw new Error(error.message || '請求失敗')
-    }
-
-    const data = await response.json()
-    
-    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
-      throw new Error('無效的 API 響應')
-    }
-
-    return NextResponse.json({
-      message: data.choices[0].message.content
-    })
-
-  } catch (error) {
+  } catch (error: any) {
     console.error('API Error:', error)
-    return NextResponse.json(
-      { error: '對唔住，暫時未能處理你嘅請求' },
-      { status: 500 }
-    )
+    
+    let errorMessage = '服务器内部错误'
+    let statusCode = 500
+
+    if (error.code === 'ETIMEDOUT' || error.code === 'ECONNABORTED') {
+      errorMessage = '请求超时，请稍后重试'
+      statusCode = 504
+    }
+
+    return new NextResponse(JSON.stringify({
+      error: errorMessage
+    }), {
+      status: statusCode,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
   }
 } 
