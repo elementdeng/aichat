@@ -12,14 +12,6 @@ const nextConfig = {
   experimental: {
     serverActions: true
   },
-  async rewrites() {
-    return [
-      {
-        source: '/aichat/:path*',
-        destination: '/:path*',
-      },
-    ]
-  },
   async headers() {
     return [
       {
