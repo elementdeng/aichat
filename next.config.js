@@ -6,6 +6,7 @@ const nextConfig = {
     // 临时禁用类型检查以允许部署
     ignoreBuildErrors: true
   },
+  basePath: '/aichat',
   experimental: {
     serverActions: true
   },
