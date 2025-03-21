@@ -123,22 +123,13 @@ export default function ChatInterface() {
                         code({node, inline, className, children, ...props}) {
                           const match = /language-(\w+)/.exec(className || '')
                           return !inline && match ? (
-                            <SyntaxHighlighter
-                              style={vscDarkPlus}
-                              language={match[1]}
-                              PreTag="div"
-                              customStyle={{ 
-                                margin: 0,
-                                fontSize: '0.8rem',
-                                maxWidth: '100%',
-                                overflowX: 'auto'
-                              }}
-                              {...props}
-                            >
-                              {String(children).replace(/\n$/, '')}
-                            </SyntaxHighlighter>
+                            <pre className={`language-${match[1]}`}>
+                              <code {...props}>
+                                {children}
+                              </code>
+                            </pre>
                           ) : (
-                            <code {...props} className="text-sm">
+                            <code className={className} {...props}>
                               {children}
                             </code>
                           )
