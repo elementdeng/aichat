@@ -19,19 +19,28 @@ export async function POST(req: Request) {
       throw new Error('DEEPSEEK_API_KEY is not configured')
     }
 
-    console.log('Sending request to Deepseek API with messages:', messages)
+    // 添加粤语系统提示
+    const systemMessage = {
+      role: 'system',
+      content: '你是一個用粵語對話的AI助手。請用粵語回答所有問題，保持親切自然的語氣。如果用戶用普通話提問，你也要用粵語回答。'
+    }
+
+    // 确保消息列表以系统提示开始
+    const allMessages = [systemMessage, ...messages]
+
+    console.log('Sending request to Deepseek API with messages:', allMessages)
 
     const response = await openai.chat.completions.create({
       model: "deepseek-chat",
-      messages: messages.map((msg: any) => ({
-        role: msg.role === 'assistant' ? 'assistant' : 'user',  // 确保角色只有 user 和 assistant
+      messages: allMessages.map((msg: any) => ({
+        role: msg.role === 'assistant' ? 'assistant' : msg.role === 'system' ? 'system' : 'user',
         content: msg.content
       })),
-      temperature: 0.7,
-      max_tokens: 2000,  // 增加 token 限制
+      temperature: 0.8,  // 稍微提高温度以增加回复的多样性
+      max_tokens: 2000,
       stream: false,
-      presence_penalty: 0.6,  // 添加 presence_penalty 以增加回复的多样性
-      frequency_penalty: 0.5  // 添加 frequency_penalty 以减少重复
+      presence_penalty: 0.6,
+      frequency_penalty: 0.5
     })
 
     console.log('Received response from Deepseek API:', response)
