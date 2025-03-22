@@ -21,6 +21,14 @@ const nextConfig = {
         ],
       },
     ]
+  },
+  // 添加输出配置
+  output: 'standalone',
+  // 添加基础路径配置
+  basePath: '',
+  // 确保正确处理静态资源
+  images: {
+    unoptimized: true
   }
 }
 
