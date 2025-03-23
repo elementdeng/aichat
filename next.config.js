@@ -9,24 +9,11 @@ const nextConfig = {
   experimental: {
     serverActions: true
   },
-  // 添加基础路径配置
-  basePath: '/aichat',
-  // 添加资源前缀
-  assetPrefix: '/aichat/',
   // 输出配置
   output: 'standalone',
   // 图片优化配置
   images: {
     unoptimized: true
-  },
-  // 添加重写规则
-  async rewrites() {
-    return [
-      {
-        source: '/aichat/api/:path*',
-        destination: '/api/:path*'
-      }
-    ]
   },
   async headers() {
     return [
