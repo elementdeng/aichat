@@ -9,10 +9,6 @@ const nextConfig = {
   experimental: {
     serverActions: true
   },
-  // 添加基础路径配置
-  basePath: '/aichat',
-  // 添加资源前缀
-  assetPrefix: '/aichat',
   // 输出配置
   output: 'standalone',
   // 图片优化配置
