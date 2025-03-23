@@ -9,6 +9,16 @@ const nextConfig = {
   experimental: {
     serverActions: true
   },
+  // 添加基础路径配置
+  basePath: '/aichat',
+  // 添加资源前缀
+  assetPrefix: '/aichat',
+  // 输出配置
+  output: 'standalone',
+  // 图片优化配置
+  images: {
+    unoptimized: true
+  },
   async headers() {
     return [
       {
@@ -21,14 +31,6 @@ const nextConfig = {
         ],
       },
     ]
-  },
-  // 添加输出配置
-  output: 'standalone',
-  // 添加基础路径配置
-  basePath: '',
-  // 确保正确处理静态资源
-  images: {
-    unoptimized: true
   }
 }
 
