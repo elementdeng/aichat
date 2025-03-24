@@ -40,7 +40,8 @@ export async function POST(req: Request) {
       max_tokens: 2000,
       stream: false,
       presence_penalty: 0.6,
-      frequency_penalty: 0.5
+      frequency_penalty: 0.5,
+      timeout: 60000  // 设置60秒超时
     })
 
     console.log('Received response from Deepseek API:', response)

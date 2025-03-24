@@ -10,7 +10,8 @@ const nextConfig = {
   output: 'standalone',
   // 图片优化配置
   images: {
-    unoptimized: true
+    unoptimized: true,
+    domains: ['ai-chat-bot-orpin.vercel.app']
   },
   // 添加重写规则
   async rewrites() {
@@ -24,7 +25,7 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: '/api/:path*',
+        source: '/:path*',
         headers: [
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
           { key: 'Access-Control-Allow-Origin', value: '*' },
@@ -33,6 +34,10 @@ const nextConfig = {
         ],
       },
     ]
+  },
+  // 添加环境变量配置
+  env: {
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'https://ai-chat-bot-orpin.vercel.app'
   }
 }
 
