@@ -6,14 +6,20 @@ const nextConfig = {
     // 临时禁用类型检查以允许部署
     ignoreBuildErrors: true
   },
-  experimental: {
-    serverActions: true
-  },
   // 输出配置
   output: 'standalone',
   // 图片优化配置
   images: {
     unoptimized: true
+  },
+  // 添加重写规则
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: '/api/:path*'
+      }
+    ]
   },
   async headers() {
     return [
