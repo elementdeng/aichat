@@ -39,10 +39,6 @@ const nextConfig = {
   // 添加环境变量配置
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'https://aichat-blond-ten.vercel.app'
-  },
-  // 添加 SSL 配置
-  server: {
-    https: true
   }
 }
 
