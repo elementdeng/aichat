@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
 // 增加超时时间
-export const runtime = 'edge' // 使用 Edge Runtime
 export const maxDuration = 300 // 增加到5分钟
 
 const openai = new OpenAI({
@@ -16,6 +15,7 @@ export async function POST(req: Request) {
     const { messages } = body
 
     if (!process.env.DEEPSEEK_API_KEY) {
+      console.error('DEEPSEEK_API_KEY is not configured')
       throw new Error('DEEPSEEK_API_KEY is not configured')
     }
 
@@ -40,13 +40,13 @@ export async function POST(req: Request) {
       max_tokens: 2000,
       stream: false,
       presence_penalty: 0.6,
-      frequency_penalty: 0.5,
-      timeout: 60000  // 设置60秒超时
+      frequency_penalty: 0.5
     })
 
     console.log('Received response from Deepseek API:', response)
 
     if (!response.choices?.[0]?.message?.content) {
+      console.error('Invalid response format:', response)
       throw new Error('Invalid response format from API')
     }
 
